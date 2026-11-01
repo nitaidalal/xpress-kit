@@ -1,6 +1,7 @@
 import { Command } from 'commander';
 import * as p from '@clack/prompts';
 
+import { generateProject } from './generator/index.js';
 import { resolveLayers } from './layers.js';
 import { askQuestions } from './prompts.js';
 import { info } from './utils/logger.js';
@@ -21,6 +22,7 @@ export async function run(): Promise<void> {
     yes: options.yes === true,
   });
   const layers = resolveLayers(projectOptions);
+  await generateProject(projectOptions);
 
   info(
     [
@@ -33,7 +35,12 @@ export async function run(): Promise<void> {
       `  install: ${projectOptions.install}`,
       '',
       `Layers: ${layers.join(' -> ')}`,
+      '',
+      'Next steps:',
+      `  cd ${projectOptions.name}`,
+      ...(projectOptions.install ? [] : ['  npm install']),
+      '  npm run dev',
     ].join('\n'),
   );
-  p.outro('Configuration complete.');
+  p.outro('Project created.');
 }
