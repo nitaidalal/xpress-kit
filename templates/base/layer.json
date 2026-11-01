@@ -1,0 +1,42 @@
+{
+  "id": "base",
+  "dependencies": [
+    "express",
+    "cors",
+    "helmet",
+    "express-rate-limit",
+    "pino",
+    "pino-http",
+    "zod",
+    "dotenv",
+    "compression"
+  ],
+  "devDependencies": [
+    "typescript",
+    "tsx",
+    "@types/node",
+    "@types/express",
+    "@types/cors",
+    "@types/compression",
+    "pino-pretty",
+    "eslint",
+    "typescript-eslint",
+    "@eslint/js",
+    "prettier"
+  ],
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "env": [
+    "NODE_ENV=development",
+    "PORT=3000",
+    "CORS_ORIGIN=http://localhost:5173",
+    "LOG_LEVEL=debug",
+    "TRUST_PROXY=false"
+  ]
+}
