@@ -25,7 +25,7 @@ export async function writeEnvFiles(targetDir: string, envLines: string[]): Prom
       ? randomBytes(48).toString('hex')
       : value;
 
-    exampleLines.push(`${key}=${isSecret ? '' : value}`);
+    exampleLines.push(`${key}=${isSecret && value === '' ? '' : value}`);
     envFileLines.push(`${key}=${generatedValue}`);
   }
 

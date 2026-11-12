@@ -36,6 +36,21 @@ describe('applyInjects', () => {
     expect(await readFile(join(targetDir, 'config.yml'), 'utf8')).toBe('  port: 3000\n  # @slot:CONFIG\n');
   });
 
+  it('preserves dollar sequences in injected code', async () => {
+    const targetDir = await createTarget();
+    await outputFile(join(targetDir, 'app.ts'), '// @slot:CODE\n');
+
+    await applyInjects(targetDir, [{
+      layer: 'base',
+      file: 'app.ts',
+      slots: { CODE: 'const value = "$& $$";' },
+    }]);
+
+    expect(await readFile(join(targetDir, 'app.ts'), 'utf8')).toBe(
+      'const value = "$& $$";\n// @slot:CODE\n',
+    );
+  });
+
   it('reports missing slots and rejects path traversal', async () => {
     const targetDir = await createTarget();
     await outputFile(join(targetDir, 'app.ts'), '// @slot:KNOWN\n');

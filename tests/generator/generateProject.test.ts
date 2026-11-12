@@ -28,7 +28,7 @@ describe('generateProject', () => {
     expect(await readFile(join(targetDir, 'src', 'app.ts'), 'utf8')).toContain('export const route = true;');
     expect(await readFile(join(targetDir, 'src', 'app.ts'), 'utf8')).not.toContain('@slot:ROUTES');
     expect(await readFile(join(targetDir, 'README.md'), 'utf8')).toBe('# my-api\n');
-    expect(await readFile(join(targetDir, '.env'), 'utf8')).toMatch(/^APP_SECRET=[a-f0-9]{64}\n$/);
+    expect(await readFile(join(targetDir, '.env'), 'utf8')).toMatch(/^APP_SECRET=[a-f0-9]{96}\n$/);
     expect(await readFile(join(targetDir, '.env.example'), 'utf8')).toBe('APP_SECRET=\n');
 
     const packageJson = JSON.parse(await readFile(join(targetDir, 'package.json'), 'utf8')) as {
@@ -77,7 +77,7 @@ describe('generateProject', () => {
     });
 
     await expect(generateProject(options(), { cwd, templatesDir })).rejects.toThrow(
-      "Injection slot 'MISSING' not found in 'src/app.ts'.",
+      "Injection slot 'MISSING' in file 'src/app.ts' from layer 'db-mongo' not found.",
     );
     await expect(readdir(join(cwd, 'my-api'))).rejects.toThrow();
   });

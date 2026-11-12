@@ -30,7 +30,7 @@ export async function applyInjects(targetDir: string, injects: ManifestInject[])
         .split('\n')
         .map((line) => line.length === 0 ? line : `${indentation}${line}`)
         .join('\n');
-      contents = contents.replace(match[0], `${indentedCode}\n${match[0]}`);
+      contents = contents.replace(match[0], () => `${indentedCode}\n${match[0]}`);
     }
     await writeFile(filePath, contents);
   }

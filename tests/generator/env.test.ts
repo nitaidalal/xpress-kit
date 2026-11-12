@@ -17,10 +17,10 @@ describe('writeEnvFiles', () => {
     const targetDir = await mkdtemp(join(tmpdir(), 'create-yourname-env-'));
     temporaryDirectories.push(targetDir);
 
-    await writeEnvFiles(targetDir, ['# settings', '', 'PORT=3000', 'APP_SECRET=']);
+    await writeEnvFiles(targetDir, ['# settings', '', 'PORT=3000', 'JWT_ACCESS_SECRET=']);
 
-    expect(await readFile(join(targetDir, '.env.example'), 'utf8')).toBe('# settings\n\nPORT=3000\nAPP_SECRET=\n');
-    expect(await readFile(join(targetDir, '.env'), 'utf8')).toMatch(/^# settings\n\nPORT=3000\nAPP_SECRET=[a-f0-9]{96}\n$/);
+    expect(await readFile(join(targetDir, '.env.example'), 'utf8')).toBe('# settings\n\nPORT=3000\nJWT_ACCESS_SECRET=\n');
+    expect(await readFile(join(targetDir, '.env'), 'utf8')).toMatch(/^# settings\n\nPORT=3000\nJWT_ACCESS_SECRET=[a-f0-9]{96}\n$/);
   });
 
   it('writes neither file for empty environment input', async () => {
